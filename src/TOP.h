@@ -6,6 +6,7 @@
  */
 
 #include <systemc.h>
+#include "syn_cdc_fifo.h"
 
 class TOP:public sc_module{
 public:
