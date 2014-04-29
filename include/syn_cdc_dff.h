@@ -38,6 +38,7 @@ public:
 			GET_SIG[0] = PUT_SIG.read();
 			GET_SIG[1] = GET_SIG[0].read();
 			GET_SIG[2] = GET_SIG[1].read();
+
 		}
 	}
 

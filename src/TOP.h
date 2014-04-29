@@ -6,12 +6,36 @@
  */
 
 #include <systemc.h>
+#include "syn_cdc_dff.h"
 #include "syn_cdc_fifo.h"
+
+class Producer:public sc_module{
+public:
+	sc_in<bool> clk;
+	sc_in<bool> nrst;
+
+	Producer(const sc_module_name& name=sc_gen_unique_name("Producer")):sc_module(name){
+		end_module();
+	}
+};
+
+class Consumer:public sc_module{
+public:
+	sc_in<bool> clk;
+	sc_in<bool> nrst;
+
+	Consumer(const sc_module_name& name=sc_gen_unique_name("Consumer")):sc_module(name){
+		end_module();
+	}
+};
 
 class TOP:public sc_module{
 public:
 	sc_clock clk;
 	sc_signal<bool> nrst;
+
+	Producer producer;
+	Consumer consumer;
 
 	SC_HAS_PROCESS(TOP);
 

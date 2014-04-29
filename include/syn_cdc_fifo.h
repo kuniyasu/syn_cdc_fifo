@@ -47,7 +47,6 @@ template<class DT, int SIZE, int WIDTH> class syn_cdc_fifo_put;
 template<class DT, int SIZE, int WIDTH> class syn_cdc_fifo_get;
 template<class DT, int SIZE, int WIDTH> class syn_cdc_fifo_channel;
 
-
 template<class DT, int SIZE, int WIDTH> class syn_cdc_fifo_channel{
 public:
 	typedef sc_uint<WIDTH+1> cnt_type;
@@ -119,6 +118,7 @@ public:
 	sc_in<bool> nrst;
 
 	sc_signal<cnt_type> rcnt_sig[2];
+	cnt_type g2bin_table[SIZE*2];
 
 	cnt_type _wcnt;
 
@@ -127,7 +127,16 @@ public:
 		SC_METHOD(cnt_sig_ff);
 		sensitive << clk.pos() << nrst.neg();
 
+		init_table();
+
 		end_module();
+	}
+
+	void init_table(){
+		for(int i=0; i<(SIZE*2); i++){
+			cnt_type o = binary2gray(i);
+			g2bin_table[o] = i;
+		}
 	}
 
 	virtual void w_reset(){
@@ -184,13 +193,7 @@ public:
 	}
 
 	cnt_type gray2binary(const cnt_type& gray){
-
-		unsigned int mask;
-	    for (mask = (gray>>1); gray != 0; gray = (gray>>1) ){
-	    	gray = gray ^ mask;
-	    }
-
-		return gray;
+		return g2bin_table[gray];
 	}
 
 	cnt_type binary2gray(const cnt_type& binary){
@@ -219,7 +222,7 @@ public:
 	sc_in<bool> nrst;
 
 	sc_signal<cnt_type> wcnt_sig[2];
-
+	cnt_type g2bin_table[SIZE*2];
 	cnt_type _rcnt;
 
 	SC_HAS_PROCESS(syn_cdc_fifo_get);
@@ -228,7 +231,16 @@ public:
 		SC_METHOD(cnt_sig_ff);
 		sensitive << clk.pos() << nrst.neg();
 
+		init_table();
+
 		end_module();
+	}
+
+	void init_table(){
+		for(int i=0; i<(SIZE*2); i++){
+			cnt_type o = binary2gray(i);
+			g2bin_table[o] = i;
+		}
 	}
 
 	virtual void r_reset(){
@@ -290,13 +302,7 @@ public:
 	}
 
 	cnt_type gray2binary(const cnt_type& gray){
-
-	    unsigned int mask;
-	    for (mask = (gray>>1); gray != 0; gray = (gray>>1) ){
-	    	gray = gray ^ mask;
-	    }
-
-		return gray;
+		return g2bin_table[gray];
 	}
 
 	void cnt_sig_ff(){
