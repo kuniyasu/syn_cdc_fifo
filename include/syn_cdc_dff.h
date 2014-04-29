@@ -44,14 +44,14 @@ public:
 	bool nb_get(DT& dt){
 		bool flag = false;
 
-		flag = (( (GET_SIG[2].read())^(GET_SIG[1].read()) ) == 0);
+		flag = ( GET_SIG[2].read() == GET_SIG[1].read() );
 		dt = GET_SIG[2].read();
 
 		return flag;
 	}
 
 	void b_get(DT& dt){
-		while(( (GET_SIG[2].read())^(GET_SIG[1].read()) ) != 0)wait();
+		while(( GET_SIG[2].read() != GET_SIG[1].read() ) != 0)wait();
 		dt = GET_SIG[2].read();
 	}
 
