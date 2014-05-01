@@ -151,8 +151,11 @@ public:
 	virtual bool is_not_full(){
 		bool flag = false;
 
-		cnt_type rcnt = rcnt_sig[1].read();
+		cnt_type rcnt = gray2binary(rcnt_sig[1].read());
 
+		if( rcnt.bit(WIDTH) == _wcnt.bit(WIDTH) && rcnt(WIDTH-1,0) != _wcnt.range(WIDTH-1,0)){
+			flag = true;
+		}
 
 		return flag;
 	}
