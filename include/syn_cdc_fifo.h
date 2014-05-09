@@ -219,7 +219,7 @@ template<class DT, int SIZE, int WIDTH>
 class syn_cdc_fifo_get:public sc_module, public syn_cdc_fifo_base_get<DT,SIZE,WIDTH>, public fifo_get_if<DT>{
 public:
 	typedef sc_uint<WIDTH+1> cnt_type;
-	typedef syn_cdc_fifo_base_put<DT,SIZE,WIDTH> base_type;
+	typedef syn_cdc_fifo_base_get<DT,SIZE,WIDTH> base_type;
 
 	sc_in<bool> clk;
 	sc_in<bool> nrst;
